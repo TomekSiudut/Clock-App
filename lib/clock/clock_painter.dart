@@ -38,6 +38,12 @@ class ClockPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 16.0;
 
+    var dashBrush = Paint()
+      ..color = Color(0xFFEAECFF)
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 1;
+
     canvas.drawCircle(center, radius - 40.0, fillBrush);
     canvas.drawCircle(center, radius - 40.0, outlineBrush);
 
@@ -57,6 +63,18 @@ class ClockPainter extends CustomPainter {
     canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
 
     canvas.drawCircle(center, 16.0, centerFillBrush);
+
+    var outerCircleRadius = radius;
+    var innerCircleRadius = radius - 14;
+
+    for (double i = 0; i < 360; i += 12) {
+      var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
+      var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
+      var x2 = centerX + innerCircleRadius * cos(i * pi / 180);
+      var y2 = centerX + innerCircleRadius * sin(i * pi / 180);
+
+      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
+    }
   }
 
   @override
